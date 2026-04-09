@@ -1,8 +1,8 @@
-# mcp-auth-framework
+# mcp-authflow
 
 OAuth 2.0 Authorization Server framework for [MCP](https://modelcontextprotocol.io/) servers. Issue and manage tokens that protect MCP tool access.
 
-Pair with [mcp-resource-framework](https://github.com/brooksmcmillin/mcpauth-resource) on the resource server side.
+Pair with [mcp-authflow-resource](https://github.com/brooksmcmillin/mcpauth-resource) on the resource server side.
 
 ## Features
 
@@ -16,10 +16,10 @@ Pair with [mcp-resource-framework](https://github.com/brooksmcmillin/mcpauth-res
 ## Installation
 
 ```bash
-pip install mcp-auth-framework
+pip install mcp-authflow
 
 # With PostgreSQL token storage (production)
-pip install mcp-auth-framework[postgres]
+pip install mcp-authflow[postgres]
 ```
 
 ## Quick Start
@@ -132,7 +132,7 @@ Run with: `uvicorn myapp:app --port 8000`
                                 v
                     +---------------------+
                     |   Auth Server        |   <-- this package
-                    |   (mcp-auth-framework)  |
+                    |   (mcp-authflow)  |
                     |                     |
                     |  /token             |   2. Issues access token
                     |  /introspect        |   4. Validates token
@@ -142,7 +142,7 @@ Run with: `uvicorn myapp:app --port 8000`
                      4. Token introspection (RFC 7662)
                                 |
                     +---------------------+
-                    |   Resource Server    |   <-- mcp-resource-framework
+                    |   Resource Server    |   <-- mcp-authflow-resource
                     |   (MCP tools)       |
                     |                     |
                     |  3. Client calls    |
