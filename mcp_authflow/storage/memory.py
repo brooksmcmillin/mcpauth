@@ -4,7 +4,7 @@ import logging
 import time
 from typing import Any
 
-from mcp_auth_framework.storage.base import TokenStorage
+from mcp_authflow.storage.base import TokenStorage
 
 logger = logging.getLogger(__name__)
 

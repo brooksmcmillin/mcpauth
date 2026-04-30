@@ -3,7 +3,7 @@
 import threading
 from unittest.mock import patch
 
-from mcp_auth_framework.rate_limiting import SlidingWindowRateLimiter
+from mcp_authflow.rate_limiting import SlidingWindowRateLimiter
 
 # ---------------------------------------------------------------------------
 # Basic allow / deny
@@ -52,7 +52,7 @@ class TestWindowReset:
         limiter = SlidingWindowRateLimiter(requests_per_window=2, window_seconds=10)
         t0 = 1_000_000.0
 
-        with patch("mcp_auth_framework.rate_limiting.time") as mock_time:
+        with patch("mcp_authflow.rate_limiting.time") as mock_time:
             mock_time.time.return_value = t0
             limiter.is_allowed("c")
             limiter.is_allowed("c")
@@ -67,7 +67,7 @@ class TestWindowReset:
         limiter = SlidingWindowRateLimiter(requests_per_window=2, window_seconds=10)
         t0 = 1_000_000.0
 
-        with patch("mcp_auth_framework.rate_limiting.time") as mock_time:
+        with patch("mcp_authflow.rate_limiting.time") as mock_time:
             mock_time.time.return_value = t0
             limiter.is_allowed("c")
             limiter.is_allowed("c")
@@ -88,7 +88,7 @@ class TestSlidingWindowEviction:
         limiter = SlidingWindowRateLimiter(requests_per_window=2, window_seconds=10)
         t0 = 1_000_000.0
 
-        with patch("mcp_auth_framework.rate_limiting.time") as mock_time:
+        with patch("mcp_authflow.rate_limiting.time") as mock_time:
             # First two requests at t0 — fills the window
             mock_time.time.return_value = t0
             limiter.is_allowed("c")
@@ -108,7 +108,7 @@ class TestSlidingWindowEviction:
         limiter = SlidingWindowRateLimiter(requests_per_window=3, window_seconds=10)
         t0 = 1_000_000.0
 
-        with patch("mcp_auth_framework.rate_limiting.time") as mock_time:
+        with patch("mcp_authflow.rate_limiting.time") as mock_time:
             mock_time.time.return_value = t0
             limiter.is_allowed("c")  # t0 — will expire at t0+10
 
@@ -144,7 +144,7 @@ class TestGetRetryAfter:
         limiter = SlidingWindowRateLimiter(requests_per_window=1, window_seconds=30)
         t0 = 1_000_000.0
 
-        with patch("mcp_auth_framework.rate_limiting.time") as mock_time:
+        with patch("mcp_authflow.rate_limiting.time") as mock_time:
             mock_time.time.return_value = t0
             limiter.is_allowed("c")
             limiter.is_allowed("c")  # denied
@@ -164,7 +164,7 @@ class TestGetRetryAfter:
         limiter = SlidingWindowRateLimiter(requests_per_window=1, window_seconds=10)
         t0 = 1_000_000.0
 
-        with patch("mcp_auth_framework.rate_limiting.time") as mock_time:
+        with patch("mcp_authflow.rate_limiting.time") as mock_time:
             mock_time.time.return_value = t0
             limiter.is_allowed("c")
             limiter.is_allowed("c")  # denied

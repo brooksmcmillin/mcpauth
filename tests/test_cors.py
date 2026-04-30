@@ -4,7 +4,7 @@ from unittest.mock import patch
 
 from starlette.requests import Request
 
-from mcp_auth_framework.cors import (
+from mcp_authflow.cors import (
     build_cors_headers,
     get_cors_origin,
     parse_allowed_origins,

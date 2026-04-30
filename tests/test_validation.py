@@ -2,7 +2,7 @@
 
 import pytest
 
-from mcp_auth_framework.validation import parse_json_field, parse_scope_field, validate_client_id
+from mcp_authflow.validation import parse_json_field, parse_scope_field, validate_client_id
 
 # ---------------------------------------------------------------------------
 # validate_client_id

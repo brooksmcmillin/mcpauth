@@ -2,7 +2,7 @@
 
 OAuth 2.0 Authorization Server framework for [MCP](https://modelcontextprotocol.io/) servers. Issue and manage tokens that protect MCP tool access.
 
-Pair with [mcp-authflow-resource](https://github.com/brooksmcmillin/mcpauth-resource) on the resource server side.
+Pair with [mcp-authflow-resource](https://github.com/brooksmcmillin/mcp-authflow-resource) on the resource server side.
 
 ## Features
 
@@ -36,10 +36,10 @@ from starlette.requests import Request
 from starlette.responses import JSONResponse
 from starlette.routing import Route
 
-from mcp_auth_framework.rate_limiting import SlidingWindowRateLimiter
-from mcp_auth_framework.responses import invalid_request, rate_limit_exceeded
-from mcp_auth_framework.storage import MemoryTokenStorage
-from mcp_auth_framework.validation import parse_scope_field, validate_client_id
+from mcp_authflow.rate_limiting import SlidingWindowRateLimiter
+from mcp_authflow.responses import invalid_request, rate_limit_exceeded
+from mcp_authflow.storage import MemoryTokenStorage
+from mcp_authflow.validation import parse_scope_field, validate_client_id
 
 # --- Setup ---
 
@@ -163,7 +163,7 @@ Run with: `uvicorn myapp:app --port 8000`
 Abstract base class with two implementations:
 
 ```python
-from mcp_auth_framework.storage import MemoryTokenStorage, PostgresTokenStorage
+from mcp_authflow.storage import MemoryTokenStorage, PostgresTokenStorage
 
 # In-memory (development/testing)
 storage = MemoryTokenStorage()
@@ -209,7 +209,7 @@ Token data returned by `load_token()`:
 Standardized error helpers following RFC 6749:
 
 ```python
-from mcp_auth_framework.responses import (
+from mcp_authflow.responses import (
     invalid_request,       # 400 - Missing/invalid parameters
     invalid_client,        # 401 - Authentication failure
     invalid_grant,         # 400 - Expired/invalid code or token
@@ -226,7 +226,7 @@ Each returns a Starlette `JSONResponse` with the appropriate status code and `Ca
 ### Rate Limiting
 
 ```python
-from mcp_auth_framework.rate_limiting import SlidingWindowRateLimiter
+from mcp_authflow.rate_limiting import SlidingWindowRateLimiter
 
 limiter = SlidingWindowRateLimiter(
     requests_per_window=60,   # Max requests per window
@@ -240,7 +240,7 @@ if not limiter.is_allowed(client_id):
 ### Input Validation
 
 ```python
-from mcp_auth_framework.validation import validate_client_id, parse_scope_field
+from mcp_authflow.validation import validate_client_id, parse_scope_field
 
 validate_client_id("my-client-123")  # True (alphanumeric + hyphens/underscores)
 validate_client_id("")               # False
@@ -253,7 +253,7 @@ parse_scope_field(None)              # "read" (default)
 ### CORS
 
 ```python
-from mcp_auth_framework.cors import parse_allowed_origins, build_cors_headers
+from mcp_authflow.cors import parse_allowed_origins, build_cors_headers
 
 # Reads ALLOWED_MCP_ORIGINS env var (comma-separated)
 origins = parse_allowed_origins()

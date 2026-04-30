@@ -4,7 +4,7 @@ import time
 
 import pytest
 
-from mcp_auth_framework.storage.memory import MemoryTokenStorage
+from mcp_authflow.storage.memory import MemoryTokenStorage
 
 
 @pytest.fixture

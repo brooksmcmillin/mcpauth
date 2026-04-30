@@ -13,7 +13,7 @@ from unittest.mock import AsyncMock, MagicMock, patch
 
 import pytest
 
-from mcp_auth_framework.storage.postgres import PostgresTokenStorage
+from mcp_authflow.storage.postgres import PostgresTokenStorage
 
 
 def _get_datetime_args(call_args: tuple) -> list[datetime]:

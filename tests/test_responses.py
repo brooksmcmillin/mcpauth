@@ -6,7 +6,7 @@ from collections.abc import Callable
 import pytest
 from starlette.responses import JSONResponse
 
-from mcp_auth_framework.responses import (
+from mcp_authflow.responses import (
     OAUTH_NO_CACHE_HEADERS,
     backend_connection_error,
     backend_invalid_response,

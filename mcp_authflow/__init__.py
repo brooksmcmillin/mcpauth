@@ -11,9 +11,9 @@ MCP (Model Context Protocol) tool access:
 - **Validation** — Input sanitization for OAuth identifiers and scopes.
 """
 
-from mcp_auth_framework.cors import build_cors_headers, get_cors_origin, parse_allowed_origins
-from mcp_auth_framework.rate_limiting import SlidingWindowRateLimiter
-from mcp_auth_framework.responses import (
+from mcp_authflow.cors import build_cors_headers, get_cors_origin, parse_allowed_origins
+from mcp_authflow.rate_limiting import SlidingWindowRateLimiter
+from mcp_authflow.responses import (
     OAUTH_NO_CACHE_HEADERS,
     backend_connection_error,
     backend_invalid_response,
@@ -28,8 +28,8 @@ from mcp_auth_framework.responses import (
     server_error,
     slow_down,
 )
-from mcp_auth_framework.storage import MemoryTokenStorage, TokenStorage
-from mcp_auth_framework.validation import (
+from mcp_authflow.storage import MemoryTokenStorage, TokenStorage
+from mcp_authflow.validation import (
     VALID_ID_PATTERN,
     parse_json_field,
     parse_scope_field,
@@ -75,7 +75,7 @@ __version__ = "0.1.0"
 
 def __getattr__(name: str) -> type:
     if name == "PostgresTokenStorage":
-        from mcp_auth_framework.storage.postgres import PostgresTokenStorage  # noqa: PLC0415
+        from mcp_authflow.storage.postgres import PostgresTokenStorage  # noqa: PLC0415
 
         return PostgresTokenStorage
     raise AttributeError(f"module {__name__!r} has no attribute {name!r}")

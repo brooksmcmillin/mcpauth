@@ -1,6 +1,6 @@
 [project]
 name = "mcp-authflow"
-version = "0.1.0"
+version = "0.2.0"
 description = "OAuth 2.0 Authorization Server framework for MCP (Model Context Protocol) servers"
 readme = "README.md"
 requires-python = ">=3.11"
@@ -33,10 +33,10 @@ dependencies = [
 postgres = ["asyncpg>=0.31.0"]
 
 [project.urls]
-Homepage = "https://github.com/brooksmcmillin/mcpauth"
-Documentation = "https://github.com/brooksmcmillin/mcpauth#readme"
-Repository = "https://github.com/brooksmcmillin/mcpauth"
-Issues = "https://github.com/brooksmcmillin/mcpauth/issues"
+Homepage = "https://github.com/brooksmcmillin/mcp-authflow"
+Documentation = "https://github.com/brooksmcmillin/mcp-authflow#readme"
+Repository = "https://github.com/brooksmcmillin/mcp-authflow"
+Issues = "https://github.com/brooksmcmillin/mcp-authflow/issues"
 
 [dependency-groups]
 dev = [
@@ -53,7 +53,7 @@ requires = ["hatchling"]
 build-backend = "hatchling.build"
 
 [tool.hatch.build.targets.wheel]
-packages = ["mcp_auth_framework"]
+packages = ["mcp_authflow"]
 
 [tool.ruff]
 line-length = 100
