@@ -13,3 +13,5 @@ venv/
 .pytest_cache/
 .coverage
 htmlcov/
+site/
+.cache/
