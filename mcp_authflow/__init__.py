@@ -15,6 +15,9 @@ MCP (Model Context Protocol) tool access:
   with an algorithm allowlist and replay protection.
 - **PKCE** — ``code_verifier`` / ``code_challenge`` verification and
   validation (RFC 7636) for the token endpoint.
+- **Device Authorization Grant** — sans-IO helpers and a polling state
+  machine for the RFC 8628 device flow at ``/device/code`` and the token
+  endpoint.
 """
 
 from mcp_authflow.client_auth import (
@@ -26,6 +29,18 @@ from mcp_authflow.client_auth import (
     JWTClientAuthenticator,
 )
 from mcp_authflow.cors import build_cors_headers, get_cors_origin, parse_allowed_origins
+from mcp_authflow.device import (
+    DEVICE_CODE_GRANT_TYPE,
+    DeviceCodeRecord,
+    DeviceCodeStatus,
+    DevicePollDecision,
+    DevicePollDecisionKind,
+    build_device_authorization_response,
+    evaluate_device_poll,
+    generate_device_code,
+    generate_user_code,
+    normalize_user_code,
+)
 from mcp_authflow.pkce import (
     ALLOWED_CODE_CHALLENGE_METHODS,
     validate_code_challenge,
@@ -128,6 +143,17 @@ __all__ = [
     "validate_code_challenge_method",
     "validate_code_verifier",
     "verify_pkce",
+    # Device Authorization Grant (RFC 8628)
+    "DEVICE_CODE_GRANT_TYPE",
+    "DeviceCodeRecord",
+    "DeviceCodeStatus",
+    "DevicePollDecision",
+    "DevicePollDecisionKind",
+    "build_device_authorization_response",
+    "evaluate_device_poll",
+    "generate_device_code",
+    "generate_user_code",
+    "normalize_user_code",
 ]
 
 __version__ = "0.6.0"

@@ -2,6 +2,74 @@
 
 ## 0.6.0
 
+### New: Device Authorization Grant (RFC 8628)
+
+Adds `mcp_authflow.device` — sans-IO authorization-server primitives for the
+device flow. The framework owns the protocol logic; consumers own storage.
+
+```python
+from mcp_authflow import (
+    DEVICE_CODE_GRANT_TYPE,
+    DevicePollDecisionKind,
+    build_device_authorization_response,
+    evaluate_device_poll,
+    generate_device_code,
+    generate_user_code,
+    normalize_user_code,
+)
+from mcp_authflow.responses import (
+    access_denied,
+    authorization_pending,
+    expired_token,
+    invalid_grant,
+    slow_down,
+)
+
+# /device/code
+response = build_device_authorization_response(
+    device_code=generate_device_code(),
+    user_code=generate_user_code(),
+    verification_uri="https://auth.example.com/device",
+    expires_in=600,
+    interval=5,
+)
+
+# /token (grant_type=urn:ietf:params:oauth:grant-type:device_code)
+record = await store.lookup_by_device_code(device_code)
+decision = evaluate_device_poll(
+    record,
+    presented_device_code=device_code,
+    presented_client_id=client_id,
+)
+match decision.kind:
+    case DevicePollDecisionKind.APPROVED:
+        ...  # mint access token
+    case DevicePollDecisionKind.AUTHORIZATION_PENDING:
+        return authorization_pending()
+    case DevicePollDecisionKind.SLOW_DOWN:
+        return slow_down("Polling too fast", retry_after=decision.retry_after)
+    case DevicePollDecisionKind.EXPIRED_TOKEN:
+        return expired_token()
+    case DevicePollDecisionKind.ACCESS_DENIED:
+        return access_denied("User denied")
+    case DevicePollDecisionKind.INVALID_GRANT:
+        return invalid_grant("Unknown device_code")
+```
+
+- `evaluate_device_poll` — pure RFC 8628 §3.5 state machine. Constant-time
+  device-code compare, client binding, expiry, polling-interval enforcement,
+  status mapping. Returns a `DevicePollDecision`; caller decides the response.
+- `generate_device_code` — `secrets.token_hex`-based.
+- `generate_user_code` — unambiguous-consonant alphabet
+  (`BCDFGHJKLMNPQRSTVWXZ`, ~34.6 bits for an 8-char code), configurable
+  grouping.
+- `normalize_user_code` — canonicalize user-entered codes for lookup
+  (accepts `wdjbmjht`, `wdjb mjht`, `WDJB-MJHT`).
+- `build_device_authorization_response` — RFC 8628 §3.2 dict assembly.
+- `DeviceCodeRecord` — `Protocol` describing the fields the framework reads.
+- `DeviceCodeStatus`, `DevicePollDecisionKind` — `StrEnum`s.
+- `DEVICE_CODE_GRANT_TYPE` — the URN constant.
+
 ### New: PKCE (RFC 7636) verification and validation
 
 Adds `mcp_authflow.pkce` — authorization-server-side primitives for
